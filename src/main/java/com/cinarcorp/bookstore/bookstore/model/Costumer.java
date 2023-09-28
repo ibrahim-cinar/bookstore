@@ -23,8 +23,10 @@ public class Costumer {
     private Long id;
     @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY)
     private List<Rent> rent;
+    private String username;
     private String firstName;
     private String lastName;
+    private String password;
     private String streetNumber;
     private String streetName;
     private String postalCode;

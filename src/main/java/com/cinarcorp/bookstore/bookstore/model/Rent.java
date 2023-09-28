@@ -24,6 +24,7 @@ public class Rent {
 
     private LocalDateTime rentStartTime;
     private LocalDateTime rentTime;
+    private boolean isDone;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id", nullable = false)

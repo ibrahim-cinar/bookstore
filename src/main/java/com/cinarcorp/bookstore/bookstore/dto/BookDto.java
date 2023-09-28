@@ -16,15 +16,15 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class bookDto {
+public class BookDto {
     private Long id;
     private String bookName;
     private String title;
     private int ISBN;
     private LocalDateTime publisherYear;
     private int price;
-    private List<Author> authors;
-    private List<Rent> rentList;
-    private List<Genre> genres;
-    private List<Publisher> publishers;
+    private List<AuthorDto> authors;
+    private List<RentDto> rentList;
+    private List<GenreDto> genres;
+    private List<PublisherDto> publishers;
 }
