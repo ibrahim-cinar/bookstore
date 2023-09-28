@@ -22,6 +22,7 @@ public class Publisher {
     @GenericGenerator(name ="UUID")
     private Long id;
     private String country;
+    private String firmName;
     @ManyToMany(mappedBy = "publisher")
     private List<Book> books;
 }

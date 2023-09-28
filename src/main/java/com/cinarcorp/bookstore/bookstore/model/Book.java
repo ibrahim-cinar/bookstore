@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 @Builder
 
@@ -55,6 +56,16 @@ public class Book {
     @JoinColumn(name = "inventory_id", referencedColumnName = "id")
     private Inventory inventory;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return ISBN == book.ISBN && price == book.price && Objects.equals(id, book.id) && Objects.equals(authors, book.authors) && Objects.equals(rentList, book.rentList) && Objects.equals(genres, book.genres) && Objects.equals(publisher, book.publisher) && Objects.equals(bookName, book.bookName) && Objects.equals(title, book.title) && Objects.equals(publisherYear, book.publisherYear) && Objects.equals(inventory, book.inventory);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, authors, rentList, genres, publisher, bookName, title, ISBN, publisherYear, price, inventory);
+    }
 }

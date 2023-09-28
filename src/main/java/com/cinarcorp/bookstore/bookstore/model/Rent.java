@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +22,8 @@ public class Rent {
     @GenericGenerator(name ="UUID")
     private Long id;
 
+    private LocalDateTime rentStartTime;
+    private LocalDateTime rentTime;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "book_id", nullable = false)
