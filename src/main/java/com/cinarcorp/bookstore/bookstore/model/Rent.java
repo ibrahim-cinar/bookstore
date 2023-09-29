@@ -14,13 +14,12 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "rent")
+@Table(name = "rents")
 @Builder
 public class Rent {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name ="UUID")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String rentId;
 
     private LocalDateTime rentStartTime;
     private LocalDateTime rentTime;

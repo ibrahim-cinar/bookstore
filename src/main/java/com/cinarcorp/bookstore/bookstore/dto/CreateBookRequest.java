@@ -1,13 +1,10 @@
 package com.cinarcorp.bookstore.bookstore.dto;
 
-import com.cinarcorp.bookstore.bookstore.model.Author;
-import com.cinarcorp.bookstore.bookstore.model.Genre;
-import com.cinarcorp.bookstore.bookstore.model.Publisher;
-import com.cinarcorp.bookstore.bookstore.model.Rent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,15 +14,14 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookDto {
+public class CreateBookRequest {
     private String bookName;
     private String title;
     private int ISBN;
     private LocalDateTime publisherYear;
     private int price;
-    private List<AuthorDto> authors;
-    private List<RentDto> rentList;
-    private List<GenreDto> genres;
-    private List<PublisherDto> publishers;
-    private InventoryDto inventoryDto;
+    private List<AuthorDto> authors= new ArrayList<>();
+    private List<GenreDto> genres= new ArrayList<>();
+    private List<PublisherDto> publishers= new ArrayList<>();
+    private InventoryDto inventory = new InventoryDto();
 }

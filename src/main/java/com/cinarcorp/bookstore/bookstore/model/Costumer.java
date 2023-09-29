@@ -15,15 +15,20 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "costumer")
+@Table(name = "costumers",
+        uniqueConstraints = {@UniqueConstraint(name = " emailId_unique", columnNames = "email")
+                , @UniqueConstraint(name = " username_unique", columnNames = "username")
+                , @UniqueConstraint(name = " phoneNumber_unique", columnNames = "phoneNumber")}
+
+)
 public class Costumer {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name ="UUID")
-    private Long id;
-    @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String costumerId;
+    @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Rent> rent;
     private String username;
+    private String email;
     private String firstName;
     private String lastName;
     private String password;

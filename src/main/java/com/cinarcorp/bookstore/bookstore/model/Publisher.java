@@ -17,11 +17,11 @@ import java.util.UUID;
 @Table(name = "publishers")
 public class Publisher {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name ="UUID")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String  publisherId;
     private String country;
+    @Column(name = "firm_name",nullable = false)
     private String firmName;
-    @ManyToMany(mappedBy = "publisher")
+    @ManyToMany(mappedBy = "publisher",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Book> books;
 }

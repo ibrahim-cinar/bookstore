@@ -1,18 +1,18 @@
 package com.cinarcorp.bookstore.bookstore.model;
 
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-@Builder
+import java.util.*;
 
+@Builder
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,52 +20,92 @@ import java.util.UUID;
 @Table(name = "books")
 public class Book {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name ="UUID")
-    private Long id;
-
-    @ManyToMany
-    @JoinTable(name = "author_book",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> authors;
-
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
-    private List<Rent> rentList;
-
-
-    @ManyToMany
-    @JoinTable(name = "genre_book",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private List<Genre> genres;
-
-    @ManyToMany
-    @JoinTable(name = "publisher_book",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
-    private List<Publisher> publisher;
-
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String bookId;
     private String bookName;
     private String title;
     private int ISBN;
     private LocalDateTime publisherYear;
     private int price;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "inventory_id", referencedColumnName = "id")
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name = "author_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
+    private List<Author> authors=new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name = "genre_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> genres=new ArrayList<>();
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @Column(name = "rent_list",nullable = false)
+    private List<Rent> rentList=new ArrayList<>();
+
+
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(name = "publisher_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
+    private List<Publisher> publisher=new ArrayList<>();
+
+
+
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "book_id", referencedColumnName = "inventory_id")
     private Inventory inventory;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return ISBN == book.ISBN && price == book.price && Objects.equals(id, book.id) && Objects.equals(authors, book.authors) && Objects.equals(rentList, book.rentList) && Objects.equals(genres, book.genres) && Objects.equals(publisher, book.publisher) && Objects.equals(bookName, book.bookName) && Objects.equals(title, book.title) && Objects.equals(publisherYear, book.publisherYear) && Objects.equals(inventory, book.inventory);
+
+    public Book(String bookName, String title, int ISBN,
+                LocalDateTime publisherYear, int price,
+                List<Author> authors, List<Genre> genres,
+                List<Publisher> publisher, Inventory inventory) {
+        this.bookName = bookName;
+        this.title = title;
+        this.ISBN = ISBN;
+        this.publisherYear = publisherYear;
+        this.price = price;
+        this.authors = authors;
+        this.genres = genres;
+        this.publisher = publisher;
+        this.inventory = inventory;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, authors, rentList, genres, publisher, bookName, title, ISBN, publisherYear, price, inventory);
+    public Book(String bookName, String title, int ISBN, LocalDateTime publisherYear, int price) {
+        this.bookName = bookName;
+        this.title = title;
+        this.ISBN = ISBN;
+        this.publisherYear = publisherYear;
+        this.price = price;
     }
+    public void addAuthor(Author author1){
+        if(authors==null) authors = new ArrayList<>();
+        authors.add(author1);
+    }
+        public void addGenres(Genre genre1){
+        if(genres==null) genres = new ArrayList<>();
+        genres.add(genre1);
+    }
+    public void addPublisher(Publisher publisher1){
+        if(publisher==null) publisher = new ArrayList<>();
+        publisher.add(publisher1);
+    }
+    public List<Author> getAuthors() {
+        return Objects.requireNonNullElse(authors, Collections.emptyList());
+    }
+    public List<Rent> getRentList(){
+        return Objects.requireNonNullElse(rentList,Collections.emptyList());
+    }
+    public List<Genre> getGenres(){
+        return Objects.requireNonNullElse(genres,Collections.emptyList());
+    }
+    public List<Publisher> getPublisher(){
+        return Objects.requireNonNullElse(publisher,Collections.emptyList());
+    }
+    public Inventory getInventory(){
+        return Objects.requireNonNullElse(inventory, new Inventory());
+    }
+
 }

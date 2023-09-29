@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
-@Builder
 
+@Builder
 @Entity
 @Data
 @NoArgsConstructor
@@ -17,11 +17,21 @@ import java.util.UUID;
 @Table(name = "inventories")
 public class Inventory {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name ="UUID")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String  inventoryId;
     private int stockLevelUsed;
     private int stockLevelNew;
-    @OneToOne(mappedBy = "inventory")
+    @OneToOne(mappedBy = "inventory",cascade = CascadeType.ALL)
     private Book book;
+
+    public Inventory(int stockLevelUsed, int stockLevelNew) {
+        this.stockLevelUsed = stockLevelUsed;
+        this.stockLevelNew = stockLevelNew;
+    }
+
+    public Inventory(int stockLevelUsed, int stockLevelNew, Book book) {
+        this.stockLevelUsed = stockLevelUsed;
+        this.stockLevelNew = stockLevelNew;
+        this.book = book;
+    }
 }

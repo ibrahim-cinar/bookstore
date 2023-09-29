@@ -5,10 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class GenreDto {
-    private String description;
+@NoArgsConstructor
+public class InventoryDto {
+    private int stockLevelUsed;
+    private int stockLevelNew;
 }

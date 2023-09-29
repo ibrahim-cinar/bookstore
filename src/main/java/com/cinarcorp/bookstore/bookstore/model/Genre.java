@@ -8,18 +8,19 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
+import java.util.UUID;
+
 @Builder
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "genre")
+@Table(name = "genres")
 public class Genre {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name ="UUID")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String  genreId;
     private String description;
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany(mappedBy = "genres",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Book> books;
 }
