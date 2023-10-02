@@ -2,6 +2,8 @@ package com.cinarcorp.bookstore.bookstore.service;
 
 import com.cinarcorp.bookstore.bookstore.dto.*;
 import com.cinarcorp.bookstore.bookstore.dto.converter.BookDtoConverter;
+import com.cinarcorp.bookstore.bookstore.exception.BookNotFoundException;
+import com.cinarcorp.bookstore.bookstore.exception.GenreIdNotFoundException;
 import com.cinarcorp.bookstore.bookstore.model.*;
 import com.cinarcorp.bookstore.bookstore.repository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,24 @@ public class BookService {
     public List<BookDto> getAllBook() {
         return bookRepository.findAll().stream().map(bookDtoConverter::convert).collect(Collectors.toList());
     }
+    protected Book findBookById(String id){
+        return bookRepository.findById(id).orElseThrow(()-> new BookNotFoundException("Book could not find by id"+id));
+    }
+    public BookDto getBookById(String id){
+
+        return bookDtoConverter.convert(findBookById(id));
+    }
+    /**//********************************************************************************************************************//**/
+
+    protected Book findBookByGenreId(String id){
+        return bookRepository.getBookFromGenreId(id).orElseThrow(()-> new GenreIdNotFoundException("Genre id could not find"+id));
+    }
+    public BookDto getBookByGenreId(String id){
+        return bookDtoConverter.convert(findBookByGenreId(id));
+    }
+    /**//********************************************************************************************************************//**/
+
+
 
     public BookDto createNewBook(CreateBookRequest createBookRequest) {
 
