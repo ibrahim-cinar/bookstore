@@ -25,25 +25,32 @@ public class PublisherService {
         this.bookDtoConverter = bookDtoConverter;
     }
     public List<BookDto> getBooksByPublisherId(String publisherId) {
-        Optional<Publisher> publisherOptional = publisherRepository.findById(publisherId);
+        return publisherRepository.findById(publisherId)
+                .map(Publisher::getBooks)
+                .orElseThrow(() -> new FirmNotFoundException("Publisher Id not found " + publisherId))
+                .stream()
+                .map(bookDtoConverter::convert)
+                .collect(Collectors.toList());
+    }
 
-        if (publisherOptional.isPresent()) {
-            Publisher publisher = publisherOptional.get();
-            return publisher.getBooks().stream()
-                    .map(bookDtoConverter::convert) // Book'ları BookDto'ya dönüştür
-                    .collect(Collectors.toList()); // List<BookDto> olarak topla
-        } else {
-            throw new FirmNotFoundException("Publisher Id not found " + publisherId);
-        }
-    }
     public List<BookDto> getBookByFirmName(String firmName) {
-        Optional<Publisher> firmOptional = publisherRepository.findByFirmName(firmName);
-        if (firmOptional.isPresent()) {
-            Publisher firm = firmOptional.get();
-            return firm.getBooks().stream().map(bookDtoConverter::convert).collect(Collectors.toList());
-        } else {
-            throw new FirmNotFoundException("Firm not found: " + firmName);
-        }
+        return publisherRepository.findByFirmName(firmName)
+                .map(Publisher::getBooks)
+                .orElseThrow(()->new FirmNotFoundException("Firm not found: " + firmName))
+                .stream()
+                .map(bookDtoConverter::convert)
+                .collect(Collectors.toList());
+
     }
+    public List<BookDto> getBookByCountry(String country) {
+        return publisherRepository.findByCountry(country)
+                .map(Publisher::getBooks)
+                .orElseThrow(()->new FirmNotFoundException("Country not found: " + country))
+                .stream()
+                .map(bookDtoConverter::convert)
+                .collect(Collectors.toList());
+
+    }
+
 
 }

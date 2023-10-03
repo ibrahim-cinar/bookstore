@@ -26,5 +26,15 @@ public class PublisherController {
 
         return ResponseEntity.ok(publisherBookByFirmName);
     }
+    @GetMapping("/country/{country}")
+    public ResponseEntity<List<BookDto>> getBookByCountry(@PathVariable String country) {
+        List<BookDto> publisherBookByCountry = publisherService.getBookByCountry(country);
+
+        if (publisherBookByCountry.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(publisherBookByCountry);
+        }
+
+        return ResponseEntity.ok(publisherBookByCountry);
+    }
 
 }

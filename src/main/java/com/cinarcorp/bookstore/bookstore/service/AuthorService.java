@@ -24,26 +24,21 @@ public class AuthorService {
     }
 
     public List<BookDto> getBooksByAuthorId(String authorId) {
-        Optional<Author> authorOptional = authorRepository.findById(authorId);
+        return authorRepository.findById(authorId)
+                .map(Author::getBooks)
+                .orElseThrow(()->new AuthorNotFoundException("Author Id not found " + authorId))
+                .stream()
+                .map(bookDtoConverter::convert)
+                .collect(Collectors.toList());
 
-        if (authorOptional.isPresent()) {
-            Author author = authorOptional.get();
-            return author.getBooks().stream()
-                    .map(bookDtoConverter::convert) // Book'ları BookDto'ya dönüştür
-                    .collect(Collectors.toList()); // List<BookDto> olarak topla
-        } else {
-            throw new AuthorNotFoundException("Author Id not found " + authorId);
-        }
     }
         public List<BookDto> getBookByAuthorName(String firstName, String lastName) {
-            Optional<Author> authorOptional = authorRepository.findByFirstnameAndLastname(firstName, lastName);
-            if (authorOptional.isPresent()) {
-                Author author = authorOptional.get();
-                return author.getBooks().stream()
-                        .map(bookDtoConverter::convert) // Book'ları BookDto'ya dönüştür
-                        .collect(Collectors.toList()); // List<BookDto> olarak topla
-            } else {
-                throw new AuthorNotFoundException("Author not found: " + firstName + " " + lastName);
-            }
+        return authorRepository.findByFirstnameAndLastname(firstName,lastName)
+                .map(Author::getBooks)
+                .orElseThrow(()->new AuthorNotFoundException("Author name not found"+firstName+" "+lastName))
+                .stream()
+                .map(bookDtoConverter::convert)
+                .collect(Collectors.toList());
+
     }
 }

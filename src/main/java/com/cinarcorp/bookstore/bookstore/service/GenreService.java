@@ -25,12 +25,13 @@ public class GenreService {
     }
 
     public List<BookDto> getBooksByGenreId(String genreId) {
-        Optional<Genre> genreOptional = genreRepository.findById(genreId);
-        Genre genre = genreOptional.orElseThrow(() -> new GenreIdNotFoundException("Genre Id not found " + genreId));
-
-        return genre.getBooks().stream()
+        return genreRepository.findById(genreId)
+                .map(Genre::getBooks)
+                .orElseThrow(()->new GenreIdNotFoundException("Genre Id not found " + genreId))
+                .stream()
                 .map(bookDtoConverter::convert)
                 .collect(Collectors.toList());
+
 
     }
 
