@@ -24,20 +24,20 @@ public class Book {
     private String bookId;
     private String bookName;
     private String title;
-    private int ISBN;
+    private String ISBN;
     private LocalDateTime publisherYear;
     private int price;
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "author_book",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
+            joinColumns = @JoinColumn(name = "book_id",referencedColumnName = "bookId"),
+            inverseJoinColumns = @JoinColumn(name = "author_id",referencedColumnName = "authorId"))
     private List<Author> authors=new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "genre_book",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+            joinColumns = @JoinColumn(name = "book_id",referencedColumnName = "bookId"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id",referencedColumnName = "genreId"))
     private List<Genre> genres=new ArrayList<>();
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -47,8 +47,8 @@ public class Book {
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinTable(name = "publisher_book",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "publisher_id"))
+            joinColumns = @JoinColumn(name = "book_id",referencedColumnName = "bookId"),
+            inverseJoinColumns = @JoinColumn(name = "publisher_id",referencedColumnName = "publisherId"))
     private List<Publisher> publisher=new ArrayList<>();
 
 
@@ -58,7 +58,7 @@ public class Book {
     private Inventory inventory;
 
 
-    public Book(String bookName, String title, int ISBN,
+    public Book(String bookName, String title, String ISBN,
                 LocalDateTime publisherYear, int price,
                 List<Author> authors, List<Genre> genres,
                 List<Publisher> publisher, Inventory inventory) {
@@ -73,7 +73,7 @@ public class Book {
         this.inventory = inventory;
     }
 
-    public Book(String bookName, String title, int ISBN, LocalDateTime publisherYear, int price) {
+    public Book(String bookName, String title, String ISBN, LocalDateTime publisherYear, int price) {
         this.bookName = bookName;
         this.title = title;
         this.ISBN = ISBN;

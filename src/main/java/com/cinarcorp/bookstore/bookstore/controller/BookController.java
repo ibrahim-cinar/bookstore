@@ -4,6 +4,7 @@ import com.cinarcorp.bookstore.bookstore.dto.BookDto;
 import com.cinarcorp.bookstore.bookstore.dto.CreateBookRequest;
 import com.cinarcorp.bookstore.bookstore.model.Book;
 import com.cinarcorp.bookstore.bookstore.service.BookService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,15 +29,15 @@ public class BookController {
     public ResponseEntity<BookDto> getBookById(@PathVariable String bookId){
         return ResponseEntity.ok(bookService.getBookById(bookId));
     }
-    /*
-    @GetMapping("/booksGenre/{id}")
-    public ResponseEntity<BookDto>getBookByGenreId(@PathVariable String id){
-        return  ResponseEntity.ok(bookService.getBookByGenreId(id));
+    @GetMapping("/isbn/{isbn}")
+    public ResponseEntity<BookDto> getBookByISBN(@PathVariable String isbn){
+        return ResponseEntity.ok(bookService.getBookByISBN(isbn));
     }
-    */
+
 
     @PostMapping
-    public ResponseEntity<BookDto> createNewBook(@RequestBody CreateBookRequest request){
-        return ResponseEntity.ok(bookService.createNewBook(request));
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookDto createBook(@RequestBody CreateBookRequest createBookRequest) {
+        return bookService.createNewBook(createBookRequest);
     }
 }

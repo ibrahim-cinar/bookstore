@@ -20,7 +20,7 @@ import java.util.List;
 public class BookDto {
     private String bookName;
     private String title;
-    private int ISBN;
+    private String ISBN;
     private LocalDateTime publisherYear;
     private int price;
     private List<AuthorDto> authors;
