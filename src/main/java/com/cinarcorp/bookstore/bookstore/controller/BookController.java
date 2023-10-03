@@ -28,10 +28,12 @@ public class BookController {
     public ResponseEntity<BookDto> getBookById(@PathVariable String bookId){
         return ResponseEntity.ok(bookService.getBookById(bookId));
     }
+    /*
     @GetMapping("/booksGenre/{id}")
     public ResponseEntity<BookDto>getBookByGenreId(@PathVariable String id){
         return  ResponseEntity.ok(bookService.getBookByGenreId(id));
     }
+    */
 
     @PostMapping
     public ResponseEntity<BookDto> createNewBook(@RequestBody CreateBookRequest request){

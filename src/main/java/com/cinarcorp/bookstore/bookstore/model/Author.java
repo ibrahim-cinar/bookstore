@@ -19,7 +19,7 @@ import java.util.UUID;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String  authorId;
+    private String authorId;
     private String firstName;
     private String lastName;
 

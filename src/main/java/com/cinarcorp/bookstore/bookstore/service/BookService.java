@@ -34,16 +34,6 @@ public class BookService {
 
         return bookDtoConverter.convert(findBookById(id));
     }
-    /**//********************************************************************************************************************//**/
-
-    protected Book findBookByGenreId(String id){
-        return bookRepository.getBookFromGenreId(id).orElseThrow(()-> new GenreIdNotFoundException("Genre id could not find"+id));
-    }
-    public BookDto getBookByGenreId(String id){
-        return bookDtoConverter.convert(findBookByGenreId(id));
-    }
-    /**//********************************************************************************************************************//**/
-
 
 
     public BookDto createNewBook(CreateBookRequest createBookRequest) {

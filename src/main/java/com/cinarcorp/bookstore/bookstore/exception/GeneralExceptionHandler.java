@@ -40,7 +40,13 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> GenreIdNotFoundExceptionHandler(GenreIdNotFoundException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(AuthorNotFoundException.class)
+    public ResponseEntity<?> AuthorNotFoundExceptionHandler(AuthorNotFoundException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
-
-
+    @ExceptionHandler(FirmNotFoundException.class)
+    public ResponseEntity<?> FirmNotFoundExceptionHandler(FirmNotFoundException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }
