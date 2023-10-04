@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface GenreRepository extends JpaRepository<Genre,String> {
 
+    Genre findBookByDescription(String description);
 }

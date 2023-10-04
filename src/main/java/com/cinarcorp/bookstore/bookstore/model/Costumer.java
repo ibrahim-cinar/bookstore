@@ -6,7 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.util.List;
 import java.util.UUID;
 @Builder
@@ -28,6 +31,7 @@ public class Costumer {
     @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Rent> rent;
     private String username;
+    @Column(unique = true)
     private String email;
     private String firstName;
     private String lastName;

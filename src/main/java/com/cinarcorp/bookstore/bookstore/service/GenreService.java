@@ -31,8 +31,13 @@ public class GenreService {
                 .stream()
                 .map(bookDtoConverter::convert)
                 .collect(Collectors.toList());
-
-
+    }
+    public List<BookDto> getBooksByGenreDesc(String description){
+        return genreRepository.findBookByDescription(description)
+                .getBooks()
+                .stream()
+                .map(bookDtoConverter::convert)
+                .collect(Collectors.toList());
     }
 
 }

@@ -26,4 +26,8 @@ public class GenreController {
     public ResponseEntity<List<BookDto>> getBooksByGenreId(@PathVariable String genreId) {
         return ResponseEntity.ok(genreService.getBooksByGenreId(genreId));
     }
+    @GetMapping("/{description}/books")
+    public ResponseEntity<List<BookDto>> getBooksByGenreDesc(@PathVariable String description) {
+        return ResponseEntity.ok(genreService.getBooksByGenreDesc(description));
+    }
 }

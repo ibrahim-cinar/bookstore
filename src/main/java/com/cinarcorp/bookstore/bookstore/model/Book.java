@@ -1,6 +1,5 @@
 package com.cinarcorp.bookstore.bookstore.model;
 
-import com.fasterxml.jackson.databind.introspect.TypeResolutionContext;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -80,6 +79,28 @@ public class Book {
         this.publisherYear = publisherYear;
         this.price = price;
     }
+
+    public Book(String bookName, String title, LocalDateTime publisherYear, int price) {
+        this.bookName = bookName;
+        this.title = title;
+        this.publisherYear = publisherYear;
+        this.price = price;
+    }
+
+    public Book(String bookName, String title, LocalDateTime publisherYear, int price,
+                List<Author> authors, List<Genre> genres, List<Rent> rentList,
+                List<Publisher> publisher, Inventory inventory) {
+        this.bookName = bookName;
+        this.title = title;
+        this.publisherYear = publisherYear;
+        this.price = price;
+        this.authors = authors;
+        this.genres = genres;
+        this.rentList = rentList;
+        this.publisher = publisher;
+        this.inventory = inventory;
+    }
+
     public void addAuthor(Author author1){
         if(authors==null) authors = new ArrayList<>();
         authors.add(author1);

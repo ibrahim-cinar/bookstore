@@ -5,18 +5,20 @@ import com.cinarcorp.bookstore.bookstore.dto.converter.BookDtoConverter;
 import com.cinarcorp.bookstore.bookstore.exception.BookNotFoundException;
 import com.cinarcorp.bookstore.bookstore.model.*;
 import com.cinarcorp.bookstore.bookstore.repository.BookRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class BookService {
+    private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private final BookRepository bookRepository;
     private final BookDtoConverter bookDtoConverter;
 
@@ -57,12 +59,12 @@ public class BookService {
 
         String isbn = createBookRequest.getISBN();
 
-        if (isbn != null && isbn.startsWith("0")|| isbn.length() != 13) {
+        if (isbn.startsWith("0")|| isbn.length() != 13) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid ISBN: ISBN cannot start with '0' and must be 13 digits");
         }
 
         //Check whether the book has been previously saved or not.
-        if (isbn != null && bookRepository.existsByISBN(isbn)) {
+        if (bookRepository.existsByISBN(isbn)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A book with the same ISBN already exists");
         }
         Book book = createBookFromRequest(createBookRequest);
@@ -86,6 +88,7 @@ public class BookService {
         createInventoryFromRequest(request.getInventory(), book);
         return book;
     }
+
 
     private void createAuthorsFromRequest(List<AuthorDto> authors, Book book) {
         if (authors != null) {
@@ -132,4 +135,29 @@ public class BookService {
             book.setInventory(inventory);
         }
     }
+    public BookDto updateBook(String isbn, UpdateBookRequest updateBookRequest) {
+        Optional<Book> optionalBook = findBookByISBN(isbn);
+
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+            book.setBookName(updateBookRequest.getBookName());
+            book.setTitle(updateBookRequest.getTitle());
+            book.setPublisherYear(updateBookRequest.getPublisherYear());
+            book.setPrice(updateBookRequest.getPrice());
+
+            Book updatedBook = bookRepository.save(book);
+            return bookDtoConverter.convert(updatedBook);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book not found");
+        }
+    }
+    public void deleteAllAboutBook(String isbn){
+        Optional<Book> optionalBook = findBookByISBN(isbn);
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+            bookRepository.delete(book);
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Book not found");
+    }
+
 }

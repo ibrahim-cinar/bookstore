@@ -49,4 +49,20 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> FirmNotFoundExceptionHandler(FirmNotFoundException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> ExceptionHandler(Exception exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(CostumerNotFoundException.class)
+    public ResponseEntity<?> CostumerNotFoundExceptionHandler(CostumerNotFoundException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<?> EmailNotFoundExceptionHandler(EmailNotFoundException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(PhoneNumberNotFoundException.class)
+    public ResponseEntity<?> PhoneNumberNotFoundExceptionHandler(PhoneNumberNotFoundException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
 }
