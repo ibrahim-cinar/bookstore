@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CostumerDtoConverter {
     public CostumerDto convert(Costumer from){
-        return  new CostumerDto(from.getUsername(), from.getEmail(),from.getFirstName(),
+        return  new CostumerDto(from.getEmail(),from.getFirstName(),
                 from.getLastName(), from.getStreetNumber(),
                 from.getStreetName(), from.getPostalCode(),
                 from.getCity(), from.getCountry(),

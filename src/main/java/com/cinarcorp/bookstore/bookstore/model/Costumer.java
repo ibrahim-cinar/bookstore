@@ -20,7 +20,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Table(name = "costumers",
         uniqueConstraints = {@UniqueConstraint(name = " emailId_unique", columnNames = "email")
-                , @UniqueConstraint(name = " username_unique", columnNames = "username")
                 , @UniqueConstraint(name = " phoneNumber_unique", columnNames = "phoneNumber")}
 
 )
@@ -28,9 +27,6 @@ public class Costumer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String costumerId;
-    @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private List<Rent> rent;
-    private String username;
     @Column(unique = true)
     private String email;
     private String firstName;
@@ -43,5 +39,55 @@ public class Costumer {
     private String country;
     private String phoneNumber;
     private boolean isActive;
+    @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<Rent> rent;
 
+    public Costumer(String email, String firstName, String lastName,
+                    String password, String streetNumber, String streetName,
+                    String postalCode, String city, String country,
+                    String phoneNumber, boolean isActive, List<Rent> rent) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.streetNumber = streetNumber;
+        this.streetName = streetName;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.isActive = isActive;
+        this.rent = rent;
+    }
+    public Costumer(String email, String firstName, String lastName,
+                    String password, String streetNumber, String streetName,
+                    String postalCode, String city, String country,
+                    String phoneNumber, boolean isActive) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.streetNumber = streetNumber;
+        this.streetName = streetName;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.isActive = isActive;
+    }
+    public Costumer(String firstName, String lastName,
+                    String password, String streetNumber, String streetName,
+                    String postalCode, String city, String country,
+                    String phoneNumber, boolean isActive) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.streetNumber = streetNumber;
+        this.streetName = streetName;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.isActive = isActive;
+    }
 }

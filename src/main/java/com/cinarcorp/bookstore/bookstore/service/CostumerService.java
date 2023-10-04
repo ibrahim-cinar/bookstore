@@ -1,6 +1,8 @@
 package com.cinarcorp.bookstore.bookstore.service;
 
 import com.cinarcorp.bookstore.bookstore.dto.CostumerDto;
+import com.cinarcorp.bookstore.bookstore.dto.CreateUserRequest;
+import com.cinarcorp.bookstore.bookstore.dto.UpdateUserRequest;
 import com.cinarcorp.bookstore.bookstore.dto.converter.CostumerDtoConverter;
 import com.cinarcorp.bookstore.bookstore.exception.BookNotFoundException;
 import com.cinarcorp.bookstore.bookstore.exception.CostumerNotFoundException;
@@ -10,6 +12,7 @@ import com.cinarcorp.bookstore.bookstore.model.Costumer;
 import com.cinarcorp.bookstore.bookstore.repository.CostumerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,16 +24,14 @@ public class CostumerService {
         this.costumerRepository = costumerRepository;
         this.costumerDtoConverter = costumerDtoConverter;
     }
-    /*                                     Username                                                    */
-    protected Optional<Costumer> findCostumerByUsername(String username) {
-        return costumerRepository.findCostumerByUsername(username);
-    }
-    public CostumerDto getCostumerByUsername(String username){
-        var costumerUsername = findCostumerByUsername(username).orElseThrow(()->new CostumerNotFoundException("costumer not found"+username));
-        return costumerDtoConverter.convert(costumerUsername);
-    }
-    /*                                     Username                                                    */
 
+    public List<Costumer> getAllCostumer(){
+        return costumerRepository.findAll();
+    }
+    public CostumerDto getCostumerById(String id){
+        var costumer = costumerRepository.findById(id).orElseThrow(()->new CostumerNotFoundException("Costumer not found"));
+        return  costumerDtoConverter.convert(costumer);
+    }
 
     /*                                     email                                                    */
 
@@ -55,4 +56,39 @@ public class CostumerService {
     }
     /*                                     phoneNumber                                                    */
 
+    public CostumerDto createNewCostumer(CreateUserRequest createUserRequest){
+        Costumer costumer =new Costumer(
+                createUserRequest.getEmail(),createUserRequest.getFirstName(),
+                createUserRequest.getLastName(), createUserRequest.getPassword(),
+                createUserRequest.getStreetNumber(), createUserRequest.getStreetName(),
+                createUserRequest.getPostalCode(), createUserRequest.getCity(),
+                createUserRequest.getCountry(), createUserRequest.getPhoneNumber(),
+                createUserRequest.isActive()
+                );
+        return costumerDtoConverter.convert(costumerRepository.save(costumer));
+    }
+    public CostumerDto updateCostumer(String email,UpdateUserRequest updateUserRequest){
+        Optional<Costumer> costumerOptional = findCostumerByEmail(email);
+        if (costumerOptional.isPresent()) {
+        Costumer costumer = costumerOptional.get();
+        costumer.setFirstName(updateUserRequest.getFirstName());
+        costumer.setLastName(updateUserRequest.getLastName());
+        costumer.setStreetNumber(updateUserRequest.getStreetNumber());
+        costumer.setStreetName(updateUserRequest.getStreetName());
+        costumer.setPostalCode(updateUserRequest.getPostalCode());
+        costumer.setCity(updateUserRequest.getCity());
+        costumer.setCountry(updateUserRequest.getCountry());
+        costumer.setPhoneNumber(updateUserRequest.getPhoneNumber());
+        costumer.setActive(updateUserRequest.isActive());
+        Costumer updatedCostumer = costumerRepository.save(costumer);
+        return costumerDtoConverter.convert(updatedCostumer);
+
+        }else{
+            throw new EmailNotFoundException("email not found"+email);
+
+        }
+    }
+    public void deleteCostumer(String email){
+        costumerRepository.deleteById(email);
+    }
 }
