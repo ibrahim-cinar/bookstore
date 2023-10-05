@@ -1,51 +1,51 @@
 package com.cinarcorp.bookstore.bookstore.controller;
 
-import com.cinarcorp.bookstore.bookstore.dto.CostumerDto;
-import com.cinarcorp.bookstore.bookstore.dto.CreateUserRequest;
-import com.cinarcorp.bookstore.bookstore.dto.UpdateUserRequest;
-import com.cinarcorp.bookstore.bookstore.model.Costumer;
-import com.cinarcorp.bookstore.bookstore.service.CostumerService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import com.cinarcorp.bookstore.bookstore.dto.CustomerDto;
+import com.cinarcorp.bookstore.bookstore.dto.CreateCustomerRequest;
+import com.cinarcorp.bookstore.bookstore.dto.UpdateCustomerRequest;
+import com.cinarcorp.bookstore.bookstore.model.Customer;
+import com.cinarcorp.bookstore.bookstore.service.CustomerService;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/api/costumer")
+@RequestMapping("/v1/api/customer")
 public class CostumerController {
-    private final CostumerService costumerService;
+    private final CustomerService customerService;
 
-    public CostumerController(CostumerService costumerService) {
-        this.costumerService = costumerService;
+    public CostumerController(CustomerService costumerService) {
+        this.customerService = costumerService;
     }
     @GetMapping
-    public ResponseEntity<List<Costumer>> getAllCostumer(){
-        return ResponseEntity.ok(costumerService.getAllCostumer());
+    public ResponseEntity<List<Customer>> getAllCostumer(){
+        return ResponseEntity.ok(customerService.getAllCustomer());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<CostumerDto> getCostumerById(@PathVariable String id){
-        return ResponseEntity.ok(costumerService.getCostumerById(id));
+    public ResponseEntity<CustomerDto> getCostumerById(@PathVariable String id){
+        return ResponseEntity.ok(customerService.getCustomerById(id));
     }
-    @GetMapping("/{email}")
-    public ResponseEntity<CostumerDto> getCostumerByEmail(@PathVariable String email){
-        return ResponseEntity.ok(costumerService.getCostumerByEmail(email));
+    @GetMapping("/email/{email}")
+    public ResponseEntity<CustomerDto> getCustomerByEmail(@PathVariable String email){
+        return ResponseEntity.ok(customerService.getCustomerByEmail(email));
     }
-    @GetMapping("/{phoneNumber}")
-    public ResponseEntity<CostumerDto> getCostumerPhoneNumber(@PathVariable String phoneNumber){
-        return ResponseEntity.ok(costumerService.getCostumerPhoneNumber(phoneNumber));
+    @GetMapping("/phone/{phoneNumber}")
+    public ResponseEntity<CustomerDto> getCustomerPhoneNumber(@PathVariable String phoneNumber){
+        return ResponseEntity.ok(customerService.getCustomerPhoneNumber(phoneNumber));
     }
     @PostMapping
-    public ResponseEntity<CostumerDto> createNewCostumer(@RequestBody CreateUserRequest createUserRequest){
-        return  ResponseEntity.ok(costumerService.createNewCostumer(createUserRequest));
+    public ResponseEntity<CustomerDto> createNewCustomer(@RequestBody CreateCustomerRequest createCustomerRequest){
+        return  ResponseEntity.ok(customerService.createNewCustomer(createCustomerRequest));
     }
     @PutMapping("/{email}")
-    public ResponseEntity<CostumerDto> updateCostumer(@PathVariable String email,@RequestBody UpdateUserRequest updateUserRequest){
-        return  ResponseEntity.ok(costumerService.updateCostumer(email,updateUserRequest));
+    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable String email, @RequestBody UpdateCustomerRequest updateCostumerRequest){
+        return  ResponseEntity.ok(customerService.updateCustomer(email,updateCostumerRequest));
     }
     @DeleteMapping("/{email}")
-    public  ResponseEntity<CostumerDto> deleteCostumer(@PathVariable String email){
-        costumerService.deleteCostumer(email);
+    public  ResponseEntity<CustomerDto> deleteCustomer(@PathVariable String email){
+        customerService.deleteCustomer(email);
         return ResponseEntity.ok().build();
     }
 

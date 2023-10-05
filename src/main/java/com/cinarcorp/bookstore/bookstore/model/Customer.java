@@ -5,28 +5,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.List;
-import java.util.UUID;
+
 @Builder
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "costumers",
+@Table(name = "customers",
         uniqueConstraints = {@UniqueConstraint(name = " emailId_unique", columnNames = "email")
                 , @UniqueConstraint(name = " phoneNumber_unique", columnNames = "phoneNumber")}
 
 )
-public class Costumer {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String costumerId;
+    private String customerId;
     @Column(unique = true)
     private String email;
     private String firstName;
@@ -39,10 +38,10 @@ public class Costumer {
     private String country;
     private String phoneNumber;
     private boolean isActive;
-    @OneToMany(mappedBy = "costumer", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Rent> rent;
 
-    public Costumer(String email, String firstName, String lastName,
+    public Customer(String email, String firstName, String lastName,
                     String password, String streetNumber, String streetName,
                     String postalCode, String city, String country,
                     String phoneNumber, boolean isActive, List<Rent> rent) {
@@ -59,7 +58,7 @@ public class Costumer {
         this.isActive = isActive;
         this.rent = rent;
     }
-    public Costumer(String email, String firstName, String lastName,
+    public Customer(String email, String firstName, String lastName,
                     String password, String streetNumber, String streetName,
                     String postalCode, String city, String country,
                     String phoneNumber, boolean isActive) {
@@ -75,7 +74,7 @@ public class Costumer {
         this.phoneNumber = phoneNumber;
         this.isActive = isActive;
     }
-    public Costumer(String firstName, String lastName,
+    public Customer(String firstName, String lastName,
                     String password, String streetNumber, String streetName,
                     String postalCode, String city, String country,
                     String phoneNumber, boolean isActive) {

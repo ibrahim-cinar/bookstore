@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RentDtoConverter {
-    private final CostumerDtoConverter converter;
+    private final CustomerDtoConverter converter;
 
-    public RentDtoConverter(CostumerDtoConverter converter) {
+    public RentDtoConverter(CustomerDtoConverter converter) {
         this.converter = converter;
     }
 
     public RentDto convert(Rent from){
-        return new RentDto(converter.convert(from.getCostumer()), from.getRentStartTime(),from.getRentTime(),from.isDone());
+        return new RentDto(converter.convert(from.getCustomer()), from.getRentStartTime(),from.getRentTime(),from.isDone());
     }
 }

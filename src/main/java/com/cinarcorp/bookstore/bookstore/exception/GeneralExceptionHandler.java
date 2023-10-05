@@ -53,8 +53,8 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> ExceptionHandler(Exception exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @ExceptionHandler(CostumerNotFoundException.class)
-    public ResponseEntity<?> CostumerNotFoundExceptionHandler(CostumerNotFoundException exception)  {
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<?> CostumerNotFoundExceptionHandler(CustomerNotFoundException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(EmailNotFoundException.class)
@@ -63,6 +63,10 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(PhoneNumberNotFoundException.class)
     public ResponseEntity<?> PhoneNumberNotFoundExceptionHandler(PhoneNumberNotFoundException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<?> EmailAlreadyExistsExceptionHandler(EmailAlreadyExistsException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

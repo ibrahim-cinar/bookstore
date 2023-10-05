@@ -1,19 +1,15 @@
 package com.cinarcorp.bookstore.bookstore.dto;
 
-import com.cinarcorp.bookstore.bookstore.model.Rent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CostumerDto {
-    private String email;
+public class UpdateCustomerRequest {
     private String firstName;
     private String lastName;
     private String streetNumber;

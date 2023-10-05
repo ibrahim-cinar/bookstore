@@ -1,7 +1,5 @@
 package com.cinarcorp.bookstore.bookstore.dto;
 
-import com.cinarcorp.bookstore.bookstore.model.Costumer;
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class RentDto {
 
-    private CostumerDto costumer;
+    private CustomerDto costumer;
     private LocalDateTime rentStartTime;
     private LocalDateTime rentTime;
     private boolean isDone;
