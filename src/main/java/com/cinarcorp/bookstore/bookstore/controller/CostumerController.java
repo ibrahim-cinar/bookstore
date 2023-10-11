@@ -20,7 +20,7 @@ public class CostumerController {
         this.customerService = costumerService;
     }
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCostumer(){
+    public ResponseEntity<List<CustomerDto>> getAllCostumer(){
         return ResponseEntity.ok(customerService.getAllCustomer());
     }
     @GetMapping("/{id}")
@@ -42,6 +42,16 @@ public class CostumerController {
     @PutMapping("/{email}")
     public ResponseEntity<CustomerDto> updateCustomer(@PathVariable String email, @RequestBody UpdateCustomerRequest updateCostumerRequest){
         return  ResponseEntity.ok(customerService.updateCustomer(email,updateCostumerRequest));
+    }
+    @PatchMapping("/{email}")
+    public ResponseEntity<Void> deactivateCustomer(@PathVariable("email") String email){
+        customerService.deactivateCustomer(email);
+        return ResponseEntity.ok().build();
+    }
+    @PatchMapping("/{email}/active")
+    public ResponseEntity<Void> activeCustomer(@PathVariable("email") String email){
+        customerService.activeCustomer(email);
+        return ResponseEntity.ok().build();
     }
     @DeleteMapping("/{email}")
     public  ResponseEntity<CustomerDto> deleteCustomer(@PathVariable String email){

@@ -69,4 +69,12 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> EmailAlreadyExistsExceptionHandler(EmailAlreadyExistsException exception)  {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(InvalidInputException.class)
+    public ResponseEntity<?> InvalidInputExceptionHandler(InvalidInputException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(IsNotActiveException.class)
+    public ResponseEntity<?> IsNotActiveExceptionHandler(IsNotActiveException exception)  {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

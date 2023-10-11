@@ -37,7 +37,7 @@ public class Customer {
     private String city;
     private String country;
     private String phoneNumber;
-    private boolean isActive;
+    private boolean isActive ;
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Rent> rent;
 
@@ -74,13 +74,13 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.isActive = isActive;
     }
-    public Customer(String firstName, String lastName,
-                    String password, String streetNumber, String streetName,
+    public Customer(String email,String firstName, String lastName,
+                     String streetNumber, String streetName,
                     String postalCode, String city, String country,
                     String phoneNumber, boolean isActive) {
+        this.email=email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.streetNumber = streetNumber;
         this.streetName = streetName;
         this.postalCode = postalCode;
@@ -89,4 +89,22 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.isActive = isActive;
     }
+
+    public Customer(String firstName, String lastName,
+                    String streetNumber, String streetName,
+                    String postalCode, String city,
+                    String country, String phoneNumber,boolean isActive) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.streetNumber = streetNumber;
+        this.streetName = streetName;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.country = country;
+        this.phoneNumber = phoneNumber;
+        this.isActive=isActive;
+    }
+
+
+
 }

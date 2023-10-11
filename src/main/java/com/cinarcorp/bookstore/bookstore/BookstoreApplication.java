@@ -15,6 +15,7 @@ public class BookstoreApplication {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 
+   // http://localhost:8080/swagger-ui/index.html#/
 	@Bean
 	public OpenAPI orderOpenAPI(@Value("${application-description}")String description
 			, @Value("${application-version}")String version){
